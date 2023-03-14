@@ -211,6 +211,18 @@ public class HomeController {
         return people;
     }
 
+    @GetMapping("home/removePerson")
+    @ResponseBody
+    public String removePerson(int id){
+
+        boolean isRemoved = people.removeIf(person-> person.getId() == id);
+
+        if(isRemoved)
+            return id+"번 사람이 삭제되었습니다.";
+        else
+            return id+"번 사람이 존재하지 않습니다.";
+    }
+
 }
 
 class Car {
