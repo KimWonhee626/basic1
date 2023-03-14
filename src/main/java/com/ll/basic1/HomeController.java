@@ -223,6 +223,37 @@ public class HomeController {
             return id+"번 사람이 존재하지 않습니다.";
     }
 
+    @GetMapping("home/modifyPerson")
+    @ResponseBody
+    public String modifyPerson(int id, String name, int age){
+
+        /* ** Stream 이용 **
+        Person find = people
+                .stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
+
+        if(find == null)
+            return id+"번 사람이 존재하지 않습니다.";
+        else
+            return id+"번 사람이 수정되었습니다.";
+        */
+        boolean isExist = false;
+
+        for(Person p : people){
+            if(p.getId() == id){
+                isExist = true;
+                p.setName(name);
+                p.setAge(age);
+            }
+        }
+        if(isExist)
+            return id+"번 사람이 수정되었습니다.";
+        else
+            return id+"번 사람이 존재하지 않습니다.";
+    }
+
 }
 
 class Car {
@@ -271,7 +302,9 @@ class CarV2 {
 class Person{
     private static int lastId;
     private final int id;
+    @Setter
     private String name;
+    @Setter
     private int age;
 
     static{
