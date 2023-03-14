@@ -3,6 +3,7 @@ package com.ll.basic1;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,9 +21,11 @@ import java.util.Map;
 public class HomeController {
 
     private int count;
+    private List<Person> people;
 
     public HomeController() {
-        count = 1;
+        count = 0;
+        people = new ArrayList<>();
     }
 
     // 개발자가 스프링부트에게 말한다.
@@ -196,11 +199,17 @@ public class HomeController {
     }
     @GetMapping("home/addPerson")
     @ResponseBody
-    public List<Person> carList(String name, int age){
-
-
+    public String addPerson(String name, int age){
+        Person p = new Person(name, age);
+        people.add(p);
+        return p.getId()+"번 사람이 추가되었습니다.";
     }
 
+    @GetMapping("home/people")
+    @ResponseBody
+    public List<Person> showPeople(){
+        return people;
+    }
 
 }
 
@@ -246,8 +255,18 @@ class CarV2 {
 
 @AllArgsConstructor
 @Getter
+@ToString
 class Person{
+    private static int lastId;
     private final int id;
     private String name;
     private int age;
+
+    static{
+        lastId = 0;
+    }
+
+    Person(String name, int age){
+        this(++lastId, name, age);
+    }
 }
