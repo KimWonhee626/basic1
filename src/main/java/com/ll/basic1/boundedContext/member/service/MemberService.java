@@ -6,6 +6,21 @@ import com.ll.basic1.boundedContext.member.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/*  ** 프로그램 실행 과정
+* HomeController 객체 생성
+*    MemberService 객체 생성
+*       MemberRepository 객체 생성
+* MemberController 객체 생성
+* 고객(브라우저)이 /member/login?username=user1&password=1234 요청
+*   MemberController::login 실행
+*       MemberService::tryLogin 실행
+*           MemberRepository::findByUsername 실행
+*           MemberRepository::findByUsername 응답
+*       MemberService::tryLogin 응답
+*   MemberController::login 응답
+* 응답이 브라우저로 전송
+* */
+
 @Service // 아래 클래스의 객체는 Ioc 컨테이너에 의해 생사소멸 관리된다.
 @AllArgsConstructor
 public class MemberService {
