@@ -205,35 +205,36 @@ public class HomeController {
 
         return list;
     }
+
     @GetMapping("home/addPerson")
     @ResponseBody
-    public String addPerson(String name, int age){
+    public String addPerson(String name, int age) {
         Person p = new Person(name, age);
         people.add(p);
-        return p.getId()+"번 사람이 추가되었습니다.";
+        return p.getId() + "번 사람이 추가되었습니다.";
     }
 
     @GetMapping("home/people")
     @ResponseBody
-    public List<Person> showPeople(){
+    public List<Person> showPeople() {
         return people;
     }
 
     @GetMapping("home/removePerson")
     @ResponseBody
-    public String removePerson(int id){
+    public String removePerson(int id) {
 
-        boolean isRemoved = people.removeIf(person-> person.getId() == id);
+        boolean isRemoved = people.removeIf(person -> person.getId() == id);
 
-        if(isRemoved)
-            return id+"번 사람이 삭제되었습니다.";
+        if (isRemoved)
+            return id + "번 사람이 삭제되었습니다.";
         else
-            return id+"번 사람이 존재하지 않습니다.";
+            return id + "번 사람이 존재하지 않습니다.";
     }
 
     @GetMapping("home/modifyPerson")
     @ResponseBody
-    public String modifyPerson(int id, String name, int age){
+    public String modifyPerson(int id, String name, int age) {
 
         /* ** Stream 이용 **
         Person find = people
@@ -249,17 +250,17 @@ public class HomeController {
         */
         boolean isExist = false;
 
-        for(Person p : people){
-            if(p.getId() == id){
+        for (Person p : people) {
+            if (p.getId() == id) {
                 isExist = true;
                 p.setName(name);
                 p.setAge(age);
             }
         }
-        if(isExist)
-            return id+"번 사람이 수정되었습니다.";
+        if (isExist)
+            return id + "번 사람이 수정되었습니다.";
         else
-            return id+"번 사람이 존재하지 않습니다.";
+            return id + "번 사람이 존재하지 않습니다.";
     }
 
     @GetMapping("/home/reqAndResp")
@@ -293,7 +294,7 @@ public class HomeController {
     @GetMapping("/home/user1")
     @ResponseBody
     public Member showUser1() {
-        return memberService.findByUsername("user1");
+        return memberService.findByUserId("user1");
     }
 }
 
@@ -340,7 +341,7 @@ class CarV2 {
 @AllArgsConstructor
 @Getter
 @ToString
-class Person{
+class Person {
     private static int lastId;
     private final int id;
     @Setter
@@ -348,11 +349,11 @@ class Person{
     @Setter
     private int age;
 
-    static{
+    static {
         lastId = 0;
     }
 
-    Person(String name, int age){
+    Person(String name, int age) {
         this(++lastId, name, age);
     }
 }

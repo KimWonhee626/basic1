@@ -28,10 +28,18 @@ public class MemberRepository {
         members.add(new Member("peace", "123413"));
     }
 
-    public Member findByUsername(String username) {
+    public Member findByUserId(String userId) {
         return members
                 .stream()
-                .filter(m -> m.getUsername().equals(username))
+                .filter(m -> m.getUserId().equals(userId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Member findById(long id) {
+        return members
+                .stream()
+                .filter(m -> m.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
