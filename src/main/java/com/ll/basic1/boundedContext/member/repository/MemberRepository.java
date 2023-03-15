@@ -1,10 +1,14 @@
 package com.ll.basic1.boundedContext.member.repository;
 
 import com.ll.basic1.boundedContext.member.entity.Member;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@AllArgsConstructor
 public class MemberRepository {
 
     private List<Member> members;
