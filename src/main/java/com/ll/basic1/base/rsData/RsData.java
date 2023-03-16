@@ -10,14 +10,14 @@ import lombok.Getter;
 public class RsData {
     private final String resultCode;
     private final String msg;
-    private final Object data; // data == memberId
+    private final Object data; // data == member
 
     public static RsData of(String resultCode, String msg) {
         return of(resultCode, msg, null);
     }
 
     public static RsData of(String resultCode, String msg, Object data) {
-        return new RsData(resultCode, msg, data); // data == memberId
+        return new RsData(resultCode, msg, data); // data == member
     }
 
     public boolean isSuccess() {
