@@ -1,19 +1,15 @@
 package com.ll.basic1.boundedContext.member.controller;
 
 import com.ll.basic1.base.rsData.RsData;
+import com.ll.basic1.base.rsData.base.rq.Rq;
 import com.ll.basic1.boundedContext.member.entity.Member;
 import com.ll.basic1.boundedContext.member.service.MemberService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Controller
 public class MemberController {
@@ -27,7 +23,9 @@ public class MemberController {
 
     @GetMapping("/member/login")
     @ResponseBody
-    public RsData login(String userId, String password, HttpServletResponse resp) {
+    public RsData login(String userId, String password, HttpServletRequest req, HttpServletResponse resp) {
+        Rq rq = new Rq(req, resp);
+
         if (userId == null || userId.trim().length() == 0) {
             return RsData.of("F-3", "userId(을)를 입력해주세요.");
         }
@@ -40,7 +38,7 @@ public class MemberController {
 
         if (rsData.isSuccess()) {
             Member member = (Member) rsData.getData();
-            resp.addCookie(new Cookie("loginMemberId", member.getId() + ""));
+            rq.setCookie("loginMemberId", member.getId());
         }
 
         return rsData;
@@ -49,33 +47,23 @@ public class MemberController {
     @GetMapping("/member/logout")
     @ResponseBody
     public RsData logout(HttpServletRequest req, HttpServletResponse resp) {
-        if (req.getCookies() != null) { // 쿠키가  있으면
-            Arrays.stream(req.getCookies())
-                    .filter(cookie -> cookie.getName().equals("loginMemberId")) // 로그인 멤버 아이디가 같은것 걸러냄
-                    .forEach(cookie -> {
-                        cookie.setMaxAge(0); // 수명을 0으로 설정
-                        resp.addCookie(cookie); // 다시 쿠키 주입
-                    });
+        Rq rq = new Rq(req, resp);
+        boolean cookieRemoved = rq.removeCookie("loginMemberId");
+
+        if (cookieRemoved == false) {
+            return RsData.of("S-2", "이미 로그아웃 상태입니다.");
         }
 
         return RsData.of("S-1", "로그아웃 되었습니다.");
     }
 
 
-
     @GetMapping("/member/me")
     @ResponseBody
-    public RsData showMe(HttpServletRequest req) {
-        long loginMemberId = 0;
+    public RsData showMe(HttpServletRequest req, HttpServletResponse resp) {
+        Rq rq = new Rq(req, resp);
 
-        if (req.getCookies() != null) {
-            loginMemberId = Arrays.stream(req.getCookies())
-                    .filter(cookie -> cookie.getName().equals("loginMemberId"))
-                    .map(Cookie::getValue)
-                    .mapToInt(Integer::parseInt)
-                    .findFirst()
-                    .orElse(0);
-        }
+        long loginMemberId = rq.getCookieAsLong("loginMemberId", 0);
 
         boolean isLogin = loginMemberId > 0;
 
