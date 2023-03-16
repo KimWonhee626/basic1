@@ -126,4 +126,8 @@ public class Rq {
     public boolean isLogout() {
         return !isLogin();
     }
+
+    public long getLoginMemberId() {
+        return getSessionAsLong("loginMemberId", 0);
+    }
 }
