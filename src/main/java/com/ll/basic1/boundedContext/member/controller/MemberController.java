@@ -4,10 +4,7 @@ import com.ll.basic1.base.rsData.RsData;
 import com.ll.basic1.base.rsData.base.rq.Rq;
 import com.ll.basic1.boundedContext.member.entity.Member;
 import com.ll.basic1.boundedContext.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,22 +16,8 @@ public class MemberController {
     private final Rq rq;
 
     @GetMapping("/member/login")
-    @ResponseBody
     public String showLogin() {
-        if (rq.isLogin()) {
-            return """
-                    <h1>이미 로그인 되었습니다.</h1>
-                    """.stripIndent();
-        }
-
-        return """
-                <h1>로그인</h1>
-                <form action="doLogin">
-                    <input type="text" placeholder="아이디" name="userId">
-                    <input type="password" placeholder="비밀번호" name="password">
-                    <input type="submit" value="로그인">
-                </form>
-                """;
+        return "user/member/login";
     }
 
     @GetMapping("/member/doLogin")
