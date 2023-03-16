@@ -116,4 +116,14 @@ public class Rq {
 
         return sb.toString();
     }
+
+    public boolean isLogin() {
+        long loginMemberId = getSessionAsLong("loginMemberId", 0);
+
+        return loginMemberId > 0;
+    }
+
+    public boolean isLogout() {
+        return !isLogin();
+    }
 }
