@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/basic1__dev?serverTimezone=Asia/Seoul
+    username: wh
+    password: wh1234
+  jpa:
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: create
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  thymeleaf:
+    cache: false
+    prefix: file:src/main/resources/templates/
+
+
