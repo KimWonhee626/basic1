@@ -1,26 +1,36 @@
 package com.ll.basic1.boundedContext.member.entity;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@AllArgsConstructor
+import java.time.LocalDateTime;
+
+@NoArgsConstructor
 @Getter
 @ToString
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Member {
 
-    private static long lastId;
-    private final long id; // memberId
-    private final String userId;
-    private final String password;
+    @Id // PRIMARY KEY
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
+    private long id;
 
+    @CreatedDate
+    private LocalDateTime createDate;
 
-    static {
-        lastId = 0;
-    }
+    @LastModifiedDate
+    private LocalDateTime modifyDate;
 
-    public Member(String userId, String password) {
-        this(++lastId, userId, password);
-    }
+    @Column(unique = true)
+    private String userId;
+
+    private String password;
+
 
 }

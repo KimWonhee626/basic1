@@ -28,7 +28,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public RsData tryLogin(String userId, String password) {
-        Member member = memberRepository.findByUserId(userId);
+        Member member = memberRepository.findByUserId(userId).orElse(null);
 
         if (member == null) {
             return RsData.of("F-2", "%s(은)는 존재하지 않는 회원입니다.".formatted(userId));
@@ -42,10 +42,10 @@ public class MemberService {
     }
 
     public Member findByUserId(String userId) {
-        return memberRepository.findByUserId(userId);
+        return memberRepository.findByUserId(userId).orElse(null);
     }
 
     public Member findById(long id) {
-        return memberRepository.findById(id);
+        return memberRepository.findById(id).orElse(null);
     }
 }
