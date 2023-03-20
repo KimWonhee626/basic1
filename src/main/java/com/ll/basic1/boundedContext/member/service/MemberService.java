@@ -4,6 +4,7 @@ import com.ll.basic1.base.rsData.RsData;
 import com.ll.basic1.boundedContext.member.entity.Member;
 import com.ll.basic1.boundedContext.member.repository.MemberRepository;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.stereotype.Service;
 
 /*  ** 프로그램 실행 과정
@@ -47,5 +48,14 @@ public class MemberService {
 
     public Member findById(long id) {
         return memberRepository.findById(id).orElse(null);
+    }
+
+    public Member join(String userId, String password) {
+        Member member = Member.builder()
+                .userId(userId)
+                .password(password)
+                .build();
+        memberRepository.save(member);
+        return member;
     }
 }

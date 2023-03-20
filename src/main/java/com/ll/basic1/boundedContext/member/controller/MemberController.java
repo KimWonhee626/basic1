@@ -1,7 +1,7 @@
 package com.ll.basic1.boundedContext.member.controller;
 
 import com.ll.basic1.base.rsData.RsData;
-import com.ll.basic1.base.rsData.base.rq.Rq;
+import com.ll.basic1.base.rq.Rq;
 import com.ll.basic1.boundedContext.member.entity.Member;
 import com.ll.basic1.boundedContext.member.service.MemberService;
 import lombok.AllArgsConstructor;
